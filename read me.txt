@@ -1,5 +1,5 @@
 		https://medium.com/django-rest/django-rest-framework-creating-product-backend-71b5d3ab19d9
-                                           create su harsh-harsh@harsh.com-harsh
+                                          
 
 
 Build a Product Review Backend with DRF
