@@ -1,0 +1,99 @@
+		https://medium.com/django-rest/django-rest-framework-creating-product-backend-71b5d3ab19d9
+                                           create su harsh-harsh@harsh.com-harsh
+
+
+Build a Product Review Backend with DRF
+ 1- Settings and Creating Models
+ 2- Admin Site Customization
+ 3- Creating views and serializers
+ 4- Dynamic Nested Serialization
+ 5- Uploading Images
+ 6- Enabling Cors
+ 7- JWT Authentication
+ 8- Login and Register
+ 9- Change Password and Update Profile
+ 10- Logout
+
+
+OBJECTIVES-TO DEVELOP A REVIEW SYSTEM FOR A PRODUCT BASED COMPANY USING DJANGO
+
+Part 1- Settings and Creating Models-CREATED MODELS.
+
+Part 2- Admin Site Customization-CUSTOMIZED ADMIN PANEL (SITE_HEADER) & (FILTER_FIELDS)
+
+Part 3- Creating views and serializer-CREATED VIEWS AND A BASIC SERIALIZER
+
+Part 4- Dynamic Nested Serialization-WITH CONCEPTS OF NESTED SERIALIZERS AND FlexFieldMixin Views.
+https://github.com/rsinger86/drf-flex-fields
+
+Part 5- Uploading Image- UPloading images using non-conventional django's VersatileImageField
+	pip install django-versatileimagefields
+	pip install python-magic-bin==0.4.14. [If not found throws error raise ImportError('failed to find libmagic.  Check your installation')
+						ImportError: failed to find libmagic.  Check your installation]
+		(5a) create a model  Image---------------------------------
+Each image managed by a VersatileImageField can store its own, unique PPOI (Primary Point of Interest) in the database via the easy-to-use PPOIField. 
+For Integrate it into model you’ll need to add a new PPOIField field to your model and then include the name of that field in 
+the VersatileImageField’s ppoi_field keyword argument.
+		
+		(5b) link with class products------------------------------ 
+Link the model with products to create a sub-class product-images and register the same in admin.py
+		
+		(5c) add to settings , urls--------------------------------
+Django development server doesn’t serve media files by default.
+We need to add MEDIA_URL and MEDIA_ROOT. Open medium/settings.py file and type the following lines of code:
+			MEDIA_URL = '/media/' -creates a static path
+			MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  -It contains the absolute path to the file system where Media files will be uploaded
+/media/ Defines a static folder for media files. An images folder will be created inside for storing them defined in VersatileImageField definition in models.py [/media/images/image_name.jpg]
+		
+		(5d) create a serializer class-----------------------------
+create a serializer using FlexFieldSerializer and create a VersatileImageField serializer to serialize the VersatileImageField created in the models with same name.
+		(5e) create a viewset and define end-points----------------
+		
+Part 6- Enabling Cors — Django    https://pypi.org/project/django-cors-headers/
+What is Cors?
+Cross Origin Resource Sharing (CORS) is a security mechanism that allows a web page from one domain or origin to 
+access a resource with a different domain. Server knows where a request is coming from and can choose
+whether or not to accept the request based on this.
+		[pip install django-cors-headers]
+
+Part 7- Using simplejwt JasonWebTokenAuthorization
+					pip install djangorestframework-simplejwt
+Header : Identifies which algorithm is used to generate the signature.
+Payload : Contains a set of claims. Claims are statements about an entity. 
+Signature : Securely validates the token.
+		7(a) To obtain token---body/raw-data/(key=username,value=username),(key=password,value=password)
+		7(b) To refresh token----body/raw-data/(key=refresh,value=refresh_token)
+		7(c) To access data------ Authorization/TYPE=Bearer , Token/Token= access_token
+		7(d) To verify----------body/raw-data/(key=token,value=verify_token)  | Authorized:{}  /  "detail": "Token is invalid or expired", "code": "token_not_valid"
+}
+
+
+Part-8 User login and register
+
+Create an app authe to perform all the authorization and other methods to perform User Login and Register.
+		1- Create a custom serializer MyTokenObtainPairSerializer and MyTokenObtainPairView in views to generate a custom TokenObtainPairView method.
+		2- Send post requests with Username and Password to the TokenObtainPairView End-point to generate token for the users.
+		3- Create a serializer For Rgistering User.
+                          Include fields Username, password, password2, email,first_name,last_name for registering user as new user.
+				This registered username and password can now be used to generate a JWT token for authentication purposes.
+
+Part 9-Change Password and Update Profile — Django Rest Framework
+
+		9(a)- Create a Serializer ChangePasswordSerializer, create in views ChangePasswordView and define in urls.py.
+		9(b) - Create a serializer file UpdateSerializer and define 2 functions validate_email and validate_username for changing username and email respectively.
+		9(c) - Add a checkpoint. Logged user must be the same as the user to be updated.  [in both ChangePasswordserializers as well as UpdateSerializer] 
+
+Part 10- User LogOut and LogOut from all devices.
+		10(a) - In INSTALLED_APPS     'rest_framework_simplejwt.token_blacklist'
+		10(b) - Create a view to log out users. - add refreshed tokens [Refresh_token(refreshtoken)] to the list of blacklist tokens.
+		10(c) - Create a view to log out all users - add all outstanding tokens to the list of blacklist tokens 
+
+
+
+
+
+---------------------------------using SWAGGER UI ------------------------------------
+1 - pip install drf-yasg
+2 - include 'drf_yasg' in INSTALLED_APPS.
+3 - Import and include url implementations and configurations for SWAGGER_UI in [project_folder/urls.py/].
+4 - SWAGGER_SETTINGS in settings.py for enhancing authorization controls.
